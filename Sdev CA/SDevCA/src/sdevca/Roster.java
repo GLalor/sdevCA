@@ -1,6 +1,9 @@
 
 package sdevca;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import javax.persistence.*;
 import static javax.persistence.CascadeType.ALL;
 
@@ -16,9 +19,9 @@ public class Roster {
     @Column(name="staff_needed")
     private int staffNeeded;
     
-    @OneToMany(cascade=ALL,mappedBy="roster",orphanRemoval=true)
-    @OrderBy ("weekNum")
-    private Staff staff;
+    @OneToMany(mappedBy="roster")
+    @MapKeyColumn(name="staff_id")
+    private Map<String, Staff> staff;
     
     //Default Constructor
     public Roster() {
@@ -42,5 +45,50 @@ public class Roster {
         this.staffNeeded = staffNeeded;
     }
     
+    public void getStaff() {
+        for (Map.Entry<String, Staff> entry : staff.entrySet()) {
+            System.out.printf("Key : %s and Value: %s %n",
+                    entry.getKey(), entry.getValue().getFName(),entry.getValue.getLName());
+        }
+    }
+
+    public void addEmployee(String cubeId, Employee employee) {
+        employeesByCubicle.put(cubeId, employee);
+        this.employees.add(employee);
+        employee.setDepartment(this);
+    }
     
+    
+    public void removeEmployee(int empId)
+    {
+        Employee e = new Employee();
+        for(int i=0;i<employees.size();i++)
+        {
+            if (employees.get(i).getId()==empId)
+            {
+                e = (Employee)employees.get(i);
+                employees.remove(i);
+            }
+        }
+        removeEmployee(e);
+        
+    }
+    
+    public void removeEmployee(Employee employee) {
+        Iterator iter = employeesByCubicle.entrySet().iterator();
+        while (iter.hasNext()) {
+            Employee current = ((Map.Entry<String,Employee>) iter.next()).getValue();
+            if (current.getId() == employee.getId()) {
+                iter.remove();
+            }
+        }
+    }
+
+    public List<Employee> getListEmployees() {
+        return employees;
+    }
+
+    public void setListEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }
