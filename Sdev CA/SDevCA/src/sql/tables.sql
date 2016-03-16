@@ -19,7 +19,9 @@ CREATE TABLE Shift(
 CREATE TABLE  Roster (
 	week_num NUMBER,
 	staff_needed Number,
-	PRIMARY KEY (week_num)
+        staff_id Number,
+	PRIMARY KEY (week_num),
+        Foreign Key (staff_id) referces Staff(staff_id)
 );
 
 
