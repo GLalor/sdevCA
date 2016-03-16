@@ -1,6 +1,5 @@
 Drop Table Roster;
 Drop Table Shift;
-Drop Table Payslip;
 Drop Table Staff;
 
 CREATE TABLE  Staff(

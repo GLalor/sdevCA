@@ -17,8 +17,8 @@ public class Staff {
     private String fName; // employee first name
     private String lName; // employee last name
     @OneToMany(mappedBy="staff")
-    @MapKey(name="payslipID")
-    private Map<String,Shift> payslip;
+    @MapKey(name="shiftID")
+    private Shift shift;
 
     @ManyToOne 
     private Roster roster;
@@ -48,5 +48,8 @@ public class Staff {
         this.lName = lName;
     }
     
+    public void setShift(Shift shift){
+        this.shift=shift;
+    }
     
 }

@@ -1,6 +1,7 @@
 
 package sdevca;
 
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -14,6 +15,13 @@ public class Shift {
     private int shiftID;
     @Column(name="shift_type")
     private String shiftType;
+    private String shiftTime;
+    
+    public Shift(int shiftID,String shiftType,String shiftTime){
+        this.shiftID=shiftID;
+        this.shiftType=shiftType;
+        this.shiftTime=shiftTime;
+    }
 
     public int getShiftID() {
         return shiftID;

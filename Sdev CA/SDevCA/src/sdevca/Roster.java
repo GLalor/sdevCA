@@ -21,8 +21,8 @@ public class Roster {
     
     @OneToMany(mappedBy="roster")
     @MapKeyColumn(name="staff_id")
-    private Map<String, Staff> staff;
-    
+    private Map<String, Staff> roster;
+    private List<Staff> staff;
     //Default Constructor
     public Roster() {
     }
@@ -46,16 +46,16 @@ public class Roster {
     }
     
     public void getStaff() {
-        for (Map.Entry<String, Staff> entry : staff.entrySet()) {
+        for (Map.Entry<String, Staff> entry : roster.entrySet()) {
             System.out.printf("Key : %s and Value: %s %n",
-                    entry.getKey(), entry.getValue().getFName(),entry.getValue.getLName());
+                    entry.getKey(), entry.getValue().getFName(),entry.getValue().getLName());
         }
-    }
-
-    public void addEmployee(String cubeId, Employee employee) {
-        employeesByCubicle.put(cubeId, employee);
-        this.employees.add(employee);
-        employee.setDepartment(this);
+    }   
+    
+    public void addStaff(String staffId, Staff staffIn) {
+        roster.put(staffId, staffIn);
+        this.staff.add(staffIn);
+        staff.setShift(this);
     }
     
     
