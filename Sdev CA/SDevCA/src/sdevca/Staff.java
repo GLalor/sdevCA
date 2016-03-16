@@ -16,9 +16,12 @@ public class Staff {
     private int empNum;  //employee number
     private String fName; // employee first name
     private String lName; // employee last name
-    @OneToMany(mappedBy="staff")
-    @MapKey(name="payslipID")
-    private Map<String,Shift> payslip;
+    @Column(name="shift_type")
+    private String shiftType;
+    
+    @ManyToMany(mappedBy="staff")
+    @MapKey(name="shift_id")
+    private Map<String,Shift> shift;
 
     @ManyToOne 
     private Roster roster;
@@ -47,6 +50,20 @@ public class Staff {
     public void setLName(String lName) {
         this.lName = lName;
     }
+
+    public String getShiftType() {
+        return shiftType;
+    }
+
+    public void setShiftType(String shiftType) {
+        this.shiftType = shiftType;
+    }
     
+    public Roster getRoster() {
+        return roster;
+    }
+    public void setRoster(Roster roster) {
+        this.roster = roster;
+    }
     
 }
