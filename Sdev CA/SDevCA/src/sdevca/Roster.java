@@ -19,9 +19,13 @@ public class Roster {
     @Column(name="staff_needed")
     private int staffNeeded;
     
+    @OneToMany(cascade=ALL,mappedBy="department",orphanRemoval=true)
+    @OrderBy ("staffID")
+    private List<Staff> staff;
+    
     @OneToMany(mappedBy="roster")
-    @MapKeyColumn(name="staff_id")
-    private Map<String, Staff> staff;
+    @MapKeyColumn(name="shift_type")
+    private Map<String, Staff> staffByShift;
     
     //Default Constructor
     public Roster() {
@@ -45,50 +49,56 @@ public class Roster {
         this.staffNeeded = staffNeeded;
     }
     
-    public void getStaff() {
-        for (Map.Entry<String, Staff> entry : staff.entrySet()) {
+   public void getStaff() {
+        for (Map.Entry<String, Staff> entry : staffByShift.entrySet()) {
             System.out.printf("Key : %s and Value: %s %n",
-                    entry.getKey(), entry.getValue().getFName(),entry.getValue.getLName());
+                    entry.getKey(), entry.getValue().getFName(), entry.getValue().getLName());
         }
     }
 
-    public void addEmployee(String cubeId, Employee employee) {
-        employeesByCubicle.put(cubeId, employee);
-        this.employees.add(employee);
-        employee.setDepartment(this);
+    public void addStaff(String shiftType, Staff staff) {
+        staffByShift.put(shiftType, staff);
+        this.staff.add(staff);
+        staff.setRoster(this);
     }
     
     
-    public void removeEmployee(int empId)
+    public void removeStaff(int empNum)
     {
-        Employee e = new Employee();
-        for(int i=0;i<employees.size();i++)
+        Staff s = new Staff();
+        for(int i=0;i<staff.size();i++)
         {
-            if (employees.get(i).getId()==empId)
+            if (staff.get(i).getEmployeeNum()==empNum)
             {
-                e = (Employee)employees.get(i);
-                employees.remove(i);
+                s = (Staff)staff.get(i);
+                staff.remove(i);
             }
         }
-        removeEmployee(e);
+        removeStaffByShift(s);
         
     }
     
-    public void removeEmployee(Employee employee) {
-        Iterator iter = employeesByCubicle.entrySet().iterator();
+    public void removeStaffByShift(Staff staff) {
+        Iterator iter = staffByShift.entrySet().iterator();
         while (iter.hasNext()) {
-            Employee current = ((Map.Entry<String,Employee>) iter.next()).getValue();
-            if (current.getId() == employee.getId()) {
+            Staff currentStaff = ((Map.Entry<String,Staff>) iter.next()).getValue();
+            if (currentStaff.getEmployeeNum() == staff.getEmployeeNum()) {
                 iter.remove();
             }
         }
     }
 
-    public List<Employee> getListEmployees() {
-        return employees;
+    public List<Staff> getListOfStaff() {
+        return staff;
     }
 
-    public void setListEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setListOfStaff(List<Staff> staff) {
+        this.staff = staff;
+    }
+    
+    public String toString(){
+        String s = "Roster for week: "+weekNum+" staff needed: "+staffNeeded;
+        
+        return s;
     }
 }

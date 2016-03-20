@@ -1,6 +1,7 @@
 
 package sdevca;
 
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -14,7 +15,10 @@ public class Shift {
     private int shiftID;
     @Column(name="shift_type")
     private String shiftType;
-
+    
+    @OneToMany
+    private List<Staff> staff;
+    
     public int getShiftID() {
         return shiftID;
     }
