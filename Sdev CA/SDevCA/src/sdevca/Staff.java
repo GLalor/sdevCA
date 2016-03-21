@@ -1,6 +1,8 @@
 
 package sdevca;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.*;
 
@@ -14,13 +16,13 @@ public class Staff {
     @Id
     @Column(name="staff_id")
     private int empNum;  //employee number
-    private String fName; // employee first name
-    private String lName; // employee last name
+    private String name; // employee name
     @ManyToOne
-    @JoinColumn(name="shift_type")
+    @JoinColumn(name="shift_id")
     private Shift shift;
-    @ManyToOne 
-    private Roster roster;
+    
+    @ManyToMany(mappedBy = "staffList")
+    private List<Roster> rosterList = new ArrayList<>();
     
     // Getters and Setters
     public int getEmployeeNum() {
@@ -31,35 +33,45 @@ public class Staff {
         this.empNum = empNum;
     }
 
-    public String getFName() {
-        return fName;
+    public String getName() {
+        return name;
     }
 
-    public void setFName(String fName) {
-        this.fName = fName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLName() {
-        return lName;
+
+    public Shift getShift() {
+        return shift;
     }
 
-    public void setLName(String lName) {
-        this.lName = lName;
-    }
-
-    public String getShiftType() {
-        return shift.getShiftType();
-    }
-
-    public void setShiftType(String shiftType) {
-        shift.setShiftType(shiftType);
+    public void setShift(Shift shift) {
+        this.shift = shift;
     }
     
-    public Roster getRoster() {
-        return roster;
+    
+     public List<Roster> getRosterList() {
+        return rosterList;
     }
-    public void setRoster(Roster roster) {
-        this.roster = roster;
+
+    public void setRosterList(List<Roster> rosterlist) {
+        this.rosterList = rosterlist;
+    }
+
+    public void addRoster(Roster r) {
+        rosterList.add(r);
+        r.getStaffList().add(this);
+    }
+
+    public void removeStaff(Roster r) {
+        rosterList.remove(r);
+        r.getStaffList().remove(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee Number: " + empNum + ", Name: " + name + " Shift type: " + shift.getShiftType()+"\n" ;
     }
     
 }

@@ -1,4 +1,3 @@
-
 package sdevca;
 
 import java.util.Iterator;
@@ -13,26 +12,26 @@ import static javax.persistence.CascadeType.ALL;
  */
 @Entity
 public class Roster {
+
     @Id
-    @Column(name="week_num")
+    @Column(name = "week_num")
     private int weekNum;
-    @Column(name="staff_needed")
+    @Column(name = "staff_needed")
     private int staffNeeded;
-    
-    @OneToMany(cascade=ALL,mappedBy="roster",orphanRemoval=true)
-    @OrderBy ("empNum")
-    private List<Staff> staff;
-    
-    @OneToMany(mappedBy="roster")
-    @MapKeyColumn(name="shift")
-    private Map<String, Staff> staffByShift;
-    
+
+    @ManyToMany
+    @JoinTable(name = "Roster_Staff",
+            joinColumns = @JoinColumn(name = "week_num"),
+            inverseJoinColumns = @JoinColumn(name = "staff_id"))
+    private List<Staff> staffList;
+
+
+
     //Default Constructor
     public Roster() {
     }
-    
-    //Getters and Setters
 
+    //Getters and Setters
     public int getWeekNum() {
         return weekNum;
     }
@@ -48,62 +47,42 @@ public class Roster {
     public void setStaffNeeded(int staffNeeded) {
         this.staffNeeded = staffNeeded;
     }
-    
+
    public void getStaff() {
-        for (Map.Entry<String, Staff> entry : staffByShift.entrySet()) {
-            System.out.printf("Key : %s and Value: %s %n",
-                    entry.getKey(), entry.getValue().getFName(), entry.getValue().getLName());
+        for (Staff s : staffList) {
+            System.out.printf("Name: %s",
+                    s.getName());
         }
     }
+    
+    
 
-    public void addStaff(String shiftType, Staff staff) {
-        staffByShift.put(shiftType, staff);
-        this.staff.add(staff);
-        staff.setRoster(this);
-    }
-    
-    
     public void removeStaff(int empNum)
     {
         Staff s = new Staff();
-        for(int i=0;i<staff.size();i++)
+        for(int i=0;i<staffList.size();i++)
         {
-            if (staff.get(i).getEmployeeNum()==empNum)
+            if (staffList.get(i).getEmployeeNum()==empNum)
             {
-                s = (Staff)staff.get(i);
-                staff.remove(i);
+                s = (Staff)staffList.get(i);
+                staffList.remove(i);
             }
         }
-        removeStaffByShift(s);
-        
-    }
-    
-    public void removeStaffByShift(Staff staff) {
-        Iterator iter = staffByShift.entrySet().iterator();
-        while (iter.hasNext()) {
-            Staff currentStaff = ((Map.Entry<String,Staff>) iter.next()).getValue();
-            if (currentStaff.getEmployeeNum() == staff.getEmployeeNum()) {
-                iter.remove();
-            }
-        }
+        staffNeeded++;
     }
 
-    public List<Staff> getListOfStaff() {
-        return staff;
+    public List<Staff> getStaffList() {
+        return staffList;
     }
 
-    public void setListOfStaff(List<Staff> staff) {
-        this.staff = staff;
+    public void addStaff(Staff staff) {
+        this.staffList.add(staff);
+        staffNeeded--;
     }
-    
-    public String toString(){
-        final String [] days = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
-        
-        String s = "Roster for week: "+weekNum+" staff needed: "+staffNeeded+"\n";
-        for(int i=0;i < days.length;i++){
-            s+= "       |     "+days[i]+"  ";
-        }
-        s+="|\n";
-        return s;
+
+    public String toString() {
+
+        return "Roster for week: " + weekNum + " staff needed: " + staffNeeded + "\n";
+
     }
 }
