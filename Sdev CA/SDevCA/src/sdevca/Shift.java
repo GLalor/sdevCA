@@ -2,6 +2,7 @@
 package sdevca;
 
 import java.util.List;
+import java.util.Map;
 import javax.persistence.*;
 
 /**
@@ -16,8 +17,9 @@ public class Shift {
     @Column(name="shift_type")
     private String shiftType;
     
-    @OneToMany
-    private List<Staff> staff;
+    @OneToMany(mappedBy="shift")
+    private List<Staff> staffList;
+
     
     public int getShiftID() {
         return shiftID;
@@ -35,18 +37,7 @@ public class Shift {
         this.shiftType = shiftType;
     }
 
-    @Override
-    public String toString() {
-        String s = "";
-        for(int i=0;i<5;i++){
-            s+="        |\n";
-        }
-        s+= "shiftType|" + shiftType + staff;
-        for(int i=0;i<5;i++){
-            s+="        |\n";
-        }
-        return s;
-    }
+   
     
     
     
