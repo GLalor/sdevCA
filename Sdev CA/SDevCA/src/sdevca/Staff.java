@@ -16,13 +16,9 @@ public class Staff {
     private int empNum;  //employee number
     private String fName; // employee first name
     private String lName; // employee last name
-    @Column(name="shift_type")
-    private String shiftType;
-    
-    @ManyToMany(mappedBy="staff")
-    @MapKey(name="shift_id")
-    private Map<String,Shift> shift;
-
+    @ManyToOne
+    @JoinColumn(name="shift_type")
+    private Shift shift;
     @ManyToOne 
     private Roster roster;
     
@@ -52,11 +48,11 @@ public class Staff {
     }
 
     public String getShiftType() {
-        return shiftType;
+        return shift.getShiftType();
     }
 
     public void setShiftType(String shiftType) {
-        this.shiftType = shiftType;
+        shift.setShiftType(shiftType);
     }
     
     public Roster getRoster() {
