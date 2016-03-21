@@ -34,6 +34,19 @@ public class Shift {
     public void setShiftType(String shiftType) {
         this.shiftType = shiftType;
     }
+
+    @Override
+    public String toString() {
+        String s = "";
+        for(int i=0;i<5;i++){
+            s+="        |\n";
+        }
+        s+= "shiftType|" + shiftType + staff;
+        for(int i=0;i<5;i++){
+            s+="        |\n";
+        }
+        return s;
+    }
     
     
     

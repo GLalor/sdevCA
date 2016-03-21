@@ -1,7 +1,6 @@
-Drop Table Shift;
-Drop Table Staff;
 Drop Table Roster;
-
+Drop Table Staff;
+Drop Table Shift;
 
 
 CREATE TABLE Shift(
@@ -15,7 +14,7 @@ CREATE TABLE  Staff(
 	fName    VARCHAR2(255) NOT NULL,
         LName    VARCHAR2(255) NOT NULL,
         shift_id Number,
-	PRIMARY KEY (staff_id)
+	PRIMARY KEY (staff_id),
         Foreign Key (shift_id) references shift(shift_id)
 );
 
@@ -25,8 +24,7 @@ CREATE TABLE  Roster (
         staff_id Number,
         shift_id Number,
 	PRIMARY KEY (week_num),
-        Foreign Key (staff_id) references Staff(staff_id),
-        Foreign Key (shift_id) references Staff(shift_id)
+        Foreign Key (staff_id) references Staff(staff_id)
 );
 
 

@@ -19,12 +19,12 @@ public class Roster {
     @Column(name="staff_needed")
     private int staffNeeded;
     
-    @OneToMany(cascade=ALL,mappedBy="department",orphanRemoval=true)
-    @OrderBy ("staffID")
+    @OneToMany(cascade=ALL,mappedBy="roster",orphanRemoval=true)
+    @OrderBy ("empNum")
     private List<Staff> staff;
     
     @OneToMany(mappedBy="roster")
-    @MapKeyColumn(name="shift_type")
+    @MapKeyColumn(name="shift")
     private Map<String, Staff> staffByShift;
     
     //Default Constructor
@@ -97,8 +97,13 @@ public class Roster {
     }
     
     public String toString(){
-        String s = "Roster for week: "+weekNum+" staff needed: "+staffNeeded;
+        final String [] days = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
         
+        String s = "Roster for week: "+weekNum+" staff needed: "+staffNeeded+"\n";
+        for(int i=0;i < days.length;i++){
+            s+= "       |     "+days[i]+"  ";
+        }
+        s+="|\n";
         return s;
     }
 }

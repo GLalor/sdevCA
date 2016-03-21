@@ -14,6 +14,9 @@ public class RosterService {
 
     List<Roster> rosterList = new ArrayList<>();
     List<Staff> staffList = new ArrayList<>();
+    List<Shift> shiftList = new ArrayList<>();
+    
+    
 
     // Create a Staff entity
     public Staff createStaff(int empNum, String fName, String lName) {
