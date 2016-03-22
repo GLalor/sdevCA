@@ -16,6 +16,7 @@ public class Staff {
     @Id
     @Column(name="staff_id")
     private int empNum;  //employee number
+<<<<<<< HEAD
     private String name; // employee name
     @ManyToOne
     @JoinColumn(name="shift_id")
@@ -23,6 +24,16 @@ public class Staff {
     
     @ManyToMany(mappedBy = "staffList")
     private List<Roster> rosterList = new ArrayList<>();
+=======
+    private String fName; // employee first name
+    private String lName; // employee last name
+    @OneToMany(mappedBy="staff")
+    @MapKey(name="shiftID")
+    private Shift shift;
+
+    @ManyToOne 
+    private Roster roster;
+>>>>>>> 10b4361700616f19b5a7a4afa9095a29198b5054
     
     // Getters and Setters
     public int getEmployeeNum() {
@@ -50,6 +61,9 @@ public class Staff {
         this.shift = shift;
     }
     
+    public void setShift(Shift shift){
+        this.shift=shift;
+    }
     
      public List<Roster> getRosterList() {
         return rosterList;
