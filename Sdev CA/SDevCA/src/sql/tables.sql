@@ -1,5 +1,9 @@
 Drop Table Roster_Staff;
 Drop Table Roster;
+<<<<<<< HEAD
+=======
+Drop Table Shift;
+>>>>>>> 10b4361700616f19b5a7a4afa9095a29198b5054
 Drop Table Staff;
 Drop Table Shift;
 
